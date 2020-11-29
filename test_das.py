@@ -1,14 +1,9 @@
 import datetime
-
 import psycopg2
 import pytest
 import requests
-
 from requests import RequestException
-
-import pingpong
 from dbconnector import connect_to_db
-from jsonmanipulation import list_of_all_counters, get_json_from_location, count_all_the_cyclists
 
 
 class TestClass:
