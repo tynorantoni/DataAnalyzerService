@@ -3,59 +3,31 @@ import psycopg2
 from dbconnector import connect_to_db
 
 
-def create_table():
+def select_data_from_city(city,start_date,end_date):
     try:
         conn = connect_to_db()
         cur = conn.cursor()
+        if city == 'krk':
+            desired_data = cur.execute(
+                '''SELECT * FROM krakow_data WHERE (date_of_count >= {} AND date_of_count <= {});'''.format(
+                start_date,end_date
+            ))
 
-        cur.execute('''CREATE TABLE brussels_data
-        (id SERIAL PRIMARY KEY NOT NULL,
-        date_of_count DATE,
-        street_name TEXT,
-        day_cnt VarChar(10));'''
-                    )
+            conn.commit()
+        elif city == "br":
+            desired_data = cur.execute(
+                '''SELECT * FROM brussels_data WHERE (date_of_count >= {} AND date_of_count <= {});'''.format(
+                    start_date, end_date
+                ))
 
         conn.commit()
+        return desired_data
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
+        return 9999
 
     finally:
         cur.close()
         conn.close()
-
-
-def drop_table():
-    try:
-        conn = connect_to_db()
-        cur = conn.cursor()
-
-        cur.execute('''DROP TABLE brussels_data;''')
-        conn.commit()
-    except (Exception, psycopg2.DatabaseError) as error:
-        print(error)
-
-    finally:
-        cur.close()
-        conn.close()
-
-
-def insert_to_db(date_of_counting, street_name, total_cyclists):
-    try:
-        conn = connect_to_db()
-        cur = conn.cursor()
-
-        cur.execute('''INSERT INTO brussels_data 
-        (date_of_count, street_name, day_cnt) VALUES 
-        ({},{},{});'''.format(date_of_counting, street_name, total_cyclists)
-                    )
-
-        conn.commit()
-    except (Exception, psycopg2.DatabaseError) as error:
-        print(error)
-
-    finally:
-        cur.close()
-        conn.close()
-
 
 
