@@ -3,20 +3,21 @@ import psycopg2
 from dbconnector import connect_to_db
 
 
+# return dataset from DB from Krakow or Brussels
 def select_data_from_city(city,start_date,end_date):
     try:
         conn = connect_to_db()
         cur = conn.cursor()
         if city == 'krk':
             cur.execute(
-                '''SELECT * FROM krakow_data WHERE (date_of_count >= {} AND date_of_count <= {});'''.format(
+                '''SELECT * FROM krakow_data WHERE (date_of_count >= '{}' AND date_of_count <= '{}');'''.format(
                 start_date,end_date
             ))
             conn.commit()
             desired_data = cur.fetchall()
         elif city == "br":
             cur.execute(
-                '''SELECT * FROM brussels_data WHERE (date_of_count >= {} AND date_of_count <= {});'''.format(
+                '''SELECT * FROM brussels_data WHERE (date_of_count >= '{}' AND date_of_count <= '{}');'''.format(
                     start_date, end_date
                 ))
 
@@ -25,12 +26,13 @@ def select_data_from_city(city,start_date,end_date):
         return desired_data
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
-        return 9999
+        return error
 
     finally:
         cur.close()
         conn.close()
 
+# return all data from selected city (Krakow or Brussels)
 def select_all_data_from_city(city):
     try:
         conn = connect_to_db()
@@ -49,10 +51,9 @@ def select_all_data_from_city(city):
         return desired_data
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
-        return 9999
+        return error
 
     finally:
         cur.close()
         conn.close()
-
 
