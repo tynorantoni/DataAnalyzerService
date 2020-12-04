@@ -1,6 +1,8 @@
 import json
 
 
+
+#co tu autor miał na myśli to nie wiem sam
 def parse_data_in_json(data_from_db):
     data_dict = {}
     for row in data_from_db:
