@@ -1,18 +1,17 @@
 import psycopg2
-import json
 from dbconnector import connect_to_db
 
 
 # return dataset from DB from Krakow or Brussels
-def select_data_from_city(city,start_date,end_date):
+def select_data_from_city(city, start_date, end_date):
     try:
         conn = connect_to_db()
         cur = conn.cursor()
         if city == 'krk':
             cur.execute(
                 '''SELECT * FROM krakow_data WHERE (date_of_count >= '{}' AND date_of_count <= '{}');'''.format(
-                start_date,end_date
-            ))
+                    start_date, end_date
+                ))
             conn.commit()
             desired_data = cur.fetchall()
         elif city == "br":
@@ -31,6 +30,7 @@ def select_data_from_city(city,start_date,end_date):
     finally:
         cur.close()
         conn.close()
+
 
 # return all data from selected city (Krakow or Brussels)
 def select_all_data_from_city(city):
@@ -56,4 +56,3 @@ def select_all_data_from_city(city):
     finally:
         cur.close()
         conn.close()
-
