@@ -34,7 +34,7 @@ def get_stat_data(city, startdate, enddate):
 
 # endpoint returning json data with statistical analysis from selected city (Krakow or Brussels)
 @app.route('/statistic&city=<city>')
-def get_stat_data(city):
+def get_all_stat_data(city):
     try:
         return make_basic_anal(select_all_data_from_city(city))
     except Exception as failure:
