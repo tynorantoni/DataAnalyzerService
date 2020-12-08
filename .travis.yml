@@ -18,5 +18,5 @@ after_success:
   - export PATH=$PATH:$HOME/.local/bin
   - aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 730924386278.dkr.ecr.us-east-2.amazonaws.com
   - docker build -t das .
-  - docker tag bss:latest 730924386278.dkr.ecr.us-east-2.amazonaws.com/das:latest
+  - docker tag das:latest 730924386278.dkr.ecr.us-east-2.amazonaws.com/das:latest
   - docker push 730924386278.dkr.ecr.us-east-2.amazonaws.com/das:latest
