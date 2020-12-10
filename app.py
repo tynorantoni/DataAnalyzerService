@@ -1,7 +1,8 @@
 from flask import Flask
 
-from dbmanipulation import select_data_from_city, select_all_data_from_city
+from dbmanipulation import select_data_from_city, select_all_data_from_city, select_last_3_hours_from_weather
 from statisticdataanalyzer import make_basic_anal, prepare_data_for_chart
+from weatherparser import parse_weather_to_json
 
 app = Flask(__name__)
 
@@ -41,6 +42,14 @@ def get_all_stat_data(city):
         print(failure)
         return '{Data Not Available}'
 
+# endpoint returning json weather data
+@app.route('/forecast')
+def get_weather_data():
+    try:
+        return parse_weather_to_json(select_last_3_hours_from_weather())
+    except Exception as failure:
+        print(failure)
+        return '{Data Not Available}'
 
 if __name__ == '__main__':
     app.run()

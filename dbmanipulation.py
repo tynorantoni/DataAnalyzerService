@@ -56,3 +56,23 @@ def select_all_data_from_city(city):
     finally:
         cur.close()
         conn.close()
+
+def select_last_3_hours_from_weather():
+    try:
+        conn = connect_to_db()
+        cur = conn.cursor()
+
+        cur.execute(
+            '''SELECT * FROM weather_data ORDER BY id DESC LIMIT 3;''')
+        conn.commit()
+        desired_data = cur.fetchall()
+
+        return desired_data
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+        return error
+
+    finally:
+        cur.close()
+        conn.close()
+
