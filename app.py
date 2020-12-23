@@ -46,7 +46,16 @@ def get_all_stat_data(city):
 @app.route('/forecast')
 def get_weather_data():
     try:
-        return parse_weather_to_json(select_last_3_hours_from_weather())
+        return parse_weather_to_json(select_last_3_hours_from_weather())[0]
+    except Exception as failure:
+        print(failure)
+        return '{Data Not Available}'
+
+# endpoint returning json weather alerts data
+@app.route('/alerts')
+def get_weather_alerts():
+    try:
+        return parse_weather_to_json(select_last_3_hours_from_weather())[1]
     except Exception as failure:
         print(failure)
         return '{Data Not Available}'

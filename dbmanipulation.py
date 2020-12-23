@@ -76,3 +76,4 @@ def select_last_3_hours_from_weather():
         cur.close()
         conn.close()
 
+
