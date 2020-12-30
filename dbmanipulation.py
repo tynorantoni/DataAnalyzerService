@@ -76,4 +76,22 @@ def select_last_3_hours_from_weather():
         cur.close()
         conn.close()
 
+def select_last_health_status():
+    try:
+        conn = connect_to_db()
+        cur = conn.cursor()
+
+        cur.execute(
+            '''SELECT * FROM ping_data ORDER BY id DESC LIMIT 1;''')
+        conn.commit()
+        desired_data = cur.fetchall()
+
+        return desired_data
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+        return error
+
+    finally:
+        cur.close()
+        conn.close()
 

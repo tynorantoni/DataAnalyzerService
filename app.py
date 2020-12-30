@@ -1,6 +1,8 @@
 from flask import Flask
 
-from dbmanipulation import select_data_from_city, select_all_data_from_city, select_last_3_hours_from_weather
+from dbmanipulation import select_data_from_city, select_all_data_from_city, select_last_3_hours_from_weather, \
+    select_last_health_status
+from healthparser import parse_health_result_to_json
 from statisticdataanalyzer import make_basic_anal, prepare_data_for_chart
 from weatherparser import parse_weather_to_json
 
@@ -58,6 +60,13 @@ def get_weather_alerts():
         return parse_weather_to_json(select_last_3_hours_from_weather())[1]
     except Exception as failure:
         print(failure)
+        return '{Data Not Available}'
+
+@app.route('/health-stats')
+def get_health_stats():
+    try:
+        return parse_health_result_to_json(select_last_health_status())
+    except:
         return '{Data Not Available}'
 
 if __name__ == '__main__':
